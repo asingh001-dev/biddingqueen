@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiddingQueen - Online Auctions</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <h1>👑 BiddingQueen</h1>
+                    <p class="tagline">Premier Online Auction Platform</p>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-box">
+                        <span class="stat-number" id="liveAuctionsCount">-</span>
+                        <span class="stat-label">Live Auctions</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number" id="activeItemsCount">-</span>
+                        <span class="stat-label">Active Items</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number" id="totalAuctionsCount">-</span>
+                        <span class="stat-label">Total Sales</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Status Tabs -->
+        <section class="status-tabs-section">
+            <div class="status-tabs">
+                <button class="status-tab" data-status="live">
+                    <span class="tab-icon">🔴</span>
+                    <span class="tab-text">Live Auctions</span>
+                    <span class="tab-count" id="liveCount">0</span>
+                </button>
+                <button class="status-tab" data-status="upcoming">
+                    <span class="tab-icon">📅</span>
+                    <span class="tab-text">Upcoming Auctions</span>
+                    <span class="tab-count" id="upcomingCount">0</span>
+                </button>
+                <button class="status-tab" data-status="past">
+                    <span class="tab-icon">✅</span>
+                    <span class="tab-text">Past Auctions</span>
+                    <span class="tab-count" id="pastCount">0</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Auction Selector -->
+        <sec    <a href="admin.html" class="status-tab admin-tab">
+                    <span class="tab-icon">📊</span>
+                    <span class="tab-text">Admin Dashboard</span>
+                    <span class="tab-count">→</span>
+                </a>
+            tion class="auction-selector">
+            <div class="selector-header">
+                <h2 id="statusTitle">Loading Auctions...</h2>
+                <div class="auction-dropdown-wrapper">
+                    <label for="auctionDropdown">Select Auction:</label>
+                    <select id="auctionDropdown" class="auction-dropdown">
+                        <option value="">Loading...</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="auction-info" id="auctionInfo">
+                <div class="info-item">
+                    <span class="info-label">Start Time:</span>
+                    <span id="auctionStartTime">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">End Time:</span>
+                    <span id="auctionEndTime">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Total Items:</span>
+                    <span id="auctionItemCount">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Status:</span>
+                    <span id="auctionStatus" class="status-badge">-</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Items Section -->
+        <section class="items-section">
+            <div class="section-header">
+                <h2 id="currentAuctionTitle">Select an auction to view items</h2>
+                <div class="view-controls">
+                    <div class="bid-info">
+                        <span class="info-badge">Starting Bid: $5</span>
+                        <span class="info-badge">Increment: $5</span>
+                    </div>
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Search items..." />
+                    </div>
+                </div>
+            </div>
+            
+            <div id="itemsGrid" class="items-grid">
+                <p class="loading">Select an auction from the dropdown above</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bidding Modal -->
+    <div id="bidModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalItemName"></h2>
+            
+            <!-- Image Gallery -->
+            <div class="image-gallery">
+                <div class="main-image-container">
+                    <img id="modalItemImage" src="" alt="" class="main-image">
+                    <button class="gallery-nav prev" id="prevImage">‹</button>
+                    <button class="gallery-nav next" id="nextImage">›</button>
+                </div>
+                <div class="thumbnail-container" id="thumbnailContainer">
+                    <!-- Thumbnails will be dynamically added here -->
+                </div>
+            </div>
+            
+            <p id="modalItemDescription"></p>
+            
+            <div class="bid-details">
+                <div class="bid-stat">
+                    <label>Current Bid:</label>
+                    <span id="modalCurrentBid" class="current-bid">$0</span>
+                </div>
+                <div class="bid-stat">
+                    <label>Next Bid:</label>
+                    <span id="modalNextBid" class="next-bid">$5</span>
+                </div>
+                <div class="bid-stat">
+                    <label>Total Bids:</label>
+                    <span id="modalBidCount">0</span>
+                </div>
+                <div class="bid-stat">
+                    <label>Ends:</label>
+                    <span id="modalEndTime"></span>
+                </div>
+            </div>
+
+            <div id="biddingSection" class="bidder-form">
+                <input type="text" id="bidderName" placeholder="Your Name (Optional)" maxlength="50">
+                <button id="placeBidBtn" class="btn-bid">Place Bid</button>
+            </div>
+            
+            <div id="closedSection" class="closed-section" style="display: none;">
+                <div class="closed-message">
+                    <span class="closed-icon">🏁</span>
+                    <h3>Auction Closed</h3>
+                    <p>Final Bid: <span id="finalBidAmount"></span></p>
+                </div>
+            </div>
+            
+            <div id="bidMessage" class="bid-message"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 BiddingQueen. All rights reserved.</p>
+            <p class="connection-status">
+                <span id="connectionStatus" class="status-indicator">●</span>
+                <span id="connectionText">Connecting...</span>
+            </p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
